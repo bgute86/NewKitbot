@@ -7,9 +7,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-
-import static edu.wpi.first.units.Units.Rotation;
-
 import java.io.File;
 import java.util.function.Supplier;
 
@@ -21,14 +18,14 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.util.Units;
 import static edu.wpi.first.units.Units.Meter;
 
 public class SwerveSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   File directory = new File(Filesystem.getDeployDirectory(),"swerve");
-  SwerveDrive swerveDrive;
+  SwerveDrive swerveDrive; 
   public SwerveSubsystem() {
+    
     try
     {
       swerveDrive = new SwerveParser(directory).createSwerveDrive(Constants.maxSpeed, new Pose2d(new Translation2d(Meter.of(1),
@@ -40,7 +37,9 @@ public class SwerveSubsystem extends SubsystemBase {
     {
       throw new RuntimeException(e);
     }
+    
   }
+  
 
   /**
    * Example command factory method.
@@ -70,7 +69,6 @@ public class SwerveSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
-
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
@@ -88,6 +86,10 @@ public Command driveFeildOriented(Supplier<ChassisSpeeds> velocity){
     swerveDrive.driveFieldOriented(velocity.get());;
   });
 }
+public Command zeroGyro() {
+    return runOnce(() -> swerveDrive.zeroGyro());
+}
+
 
 
 }
